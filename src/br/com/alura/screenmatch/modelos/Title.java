@@ -1,12 +1,17 @@
 package br.com.alura.screenmatch.modelos;
 
-public class Title {
+public class Title implements Comparable<Title> {
     private String titleName;
     private int titleYear;
     private int titleDuration;
     private boolean planIncluded;
     private double rating;
     private int totalOfRating;
+
+    public Title(String titleName, int titleYear) {
+        this.titleName = titleName;
+        this.titleYear = titleYear;
+    }
 
     public void getInfos() {
         System.out.println("Título: " + titleName);
@@ -37,7 +42,7 @@ public class Title {
         return rating;
     }
 
-    public void setFilmName(String titleName) {
+    public void setTitleName(String titleName) {
         this.titleName = titleName;
     }
 
@@ -56,5 +61,10 @@ public class Title {
 
     public double averageRating() {
         return rating / totalOfRating;
+    }
+
+    @Override
+    public int compareTo(Title otherTitle) {
+        return this.getTitleName().compareTo(otherTitle.getTitleName());
     }
 }
