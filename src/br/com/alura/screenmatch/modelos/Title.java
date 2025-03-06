@@ -1,5 +1,8 @@
 package br.com.alura.screenmatch.modelos;
 
+import br.com.alura.screenmatch.excecao.ConversionYearException;
+import com.google.gson.annotations.SerializedName;
+
 public class Title implements Comparable<Title> {
     private String titleName;
     private int titleYear;
@@ -11,6 +14,18 @@ public class Title implements Comparable<Title> {
     public Title(String titleName, int titleYear) {
         this.titleName = titleName;
         this.titleYear = titleYear;
+    }
+
+    public Title(TitleOmdb myTitleOmdb) {
+        this.titleName = myTitleOmdb.title();
+
+        if (myTitleOmdb.year().length() > 4) {
+            throw new ConversionYearException("Não foi possível converter o ano, " +
+                    "possui mais de 4 caracteres.");
+        }
+
+        this.titleYear = Integer.valueOf(myTitleOmdb.year());
+        this.titleDuration = Integer.valueOf(myTitleOmdb.runtime().split(" ")[0]);
     }
 
     public void getInfos() {
@@ -61,6 +76,12 @@ public class Title implements Comparable<Title> {
 
     public double averageRating() {
         return rating / totalOfRating;
+    }
+
+    @Override
+    public String toString() {
+        return "(Nome = " + titleName + ", Ano de lançamento = " + titleYear +
+                ", Duração = " + titleDuration + ")";
     }
 
     @Override
